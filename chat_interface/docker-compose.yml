@@ -1,0 +1,21 @@
+# name: local_llm
+
+services:
+  ollama-container:
+    image: ollama/ollama
+    volumes:
+      - /usr/share/ollama/.ollama:/root/.ollama
+    ports:
+      - 11434:11434
+    # command: nvidia-smi
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  streamlit-app:
+    image: paperarmada/ollama-langchain
+    ports:
+      - 8501:8501
